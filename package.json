@@ -1,0 +1,20 @@
+{
+  "name": "nextjs-sample-app",
+  "version": "1.0.0",
+  "description": "Sample app with next.js and express",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
+  },
+  "dependencies": {
+    "@zeit/next-css": "~1.0.1",
+    "bootstrap": "~4.2.1",
+    "express": "~4.16.4",
+    "isomorphic-unfetch": "~3.0.0",
+    "next": "~7.0.2",
+    "react": "~16.8.1",
+    "react-bootstrap": "~1.0.0-beta.5",
+    "react-dom": "~16.8.1"
+  }
+}
