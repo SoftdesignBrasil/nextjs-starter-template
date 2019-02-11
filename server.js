@@ -1,3 +1,5 @@
+const apiRouter = require('./api/apiMock')
+
 const express = require('express')
 const next = require('next')
 
@@ -8,6 +10,9 @@ const handle = app.getRequestHandler()
 
 app.prepare().then(() => {
   const server = express()
+
+  // Api de Mock
+  server.use('/api', apiRouter)
 
   // Faz a rota default do NEXT JS baseado nos arquivos do dir: pages;
   server.get('*', (req, res) => {
