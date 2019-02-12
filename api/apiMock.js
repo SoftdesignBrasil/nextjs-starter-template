@@ -26,10 +26,11 @@ router.get('/employees', (req, res) => {
 })
 
 router.post('/employee', (req, res) => {
+  console.log('POST - /employee')
   const employeeIndex = req.body.id - 1
   EMPLOYEE_DATA[employeeIndex].name = req.body.name
   EMPLOYEE_DATA[employeeIndex].createdAt = new Date()
-  res.sendStatus(200)
+  res.json(EMPLOYEE_DATA[employeeIndex])
 })
 
 module.exports = router
