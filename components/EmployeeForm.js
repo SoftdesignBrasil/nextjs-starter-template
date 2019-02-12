@@ -4,16 +4,42 @@ import React from 'react'
 import Link from 'next/link'
 
 class EmployeeForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: this.props.employee.name,
+      modifiedAt: this.props.employee.createdAt
+    }
+    this.onNameChange = this.onNameChange.bind(this)
+  }
+
+  onNameChange(event) {
+    this.setState({
+      name: event.target.value
+    }, () => {
+      console.log(`New State: ${JSON.stringify(this.state)}`)
+    })
+  }
+
   render() {
     return (
       <Form>
         <Form.Group controlId="formName">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" defaultValue={this.props.employee.name} placeholder="Enter name" />
+          <Form.Control
+            type="text"
+            value={this.state.name}
+            placeholder="Enter name"
+            onChange={this.onNameChange}
+          />
         </Form.Group>
         <Form.Group controlId="formDate">
           <Form.Label>Modified At</Form.Label>
-          <Form.Control type="text" defaultValue={this.props.employee.createdAt} />
+          <Form.Control
+            type="text"
+            value={this.state.modifiedAt}
+            readOnly={true}
+          />
         </Form.Group>
         <Form.Group>
           <Link prefetch href={`/`}>

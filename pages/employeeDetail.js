@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import React from 'react'
 import EmployeeForm from '../components/EmployeeForm'
+import fetch from 'isomorphic-unfetch'
 
 class EmployeeDetail extends React.Component {
   render() {
