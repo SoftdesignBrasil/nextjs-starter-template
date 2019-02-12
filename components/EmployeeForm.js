@@ -1,22 +1,40 @@
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import Alert from 'react-bootstrap/Alert'
-import Col from 'react-bootstrap/Col'
+import { Form, Button, Alert, Col, Row } from 'react-bootstrap'
 import React from 'react'
 import Link from 'next/link'
 import fetch from 'isomorphic-unfetch'
-import Row from 'react-bootstrap/Row';
+
+const createNewEmployeeInitialState = () => (
+  {
+    id: undefined,
+    name: '',
+    modifiedAt: '',
+    showAlert: false,
+    updateSucceeded: false,
+    alertMsg: '',
+    isNewEmployee: true
+  }
+)
+
+const createUpdateEmployeeInitalState = (employee) => (
+  {
+    id: employee.id,
+    name: employee.name,
+    modifiedAt: employee.createdAt,
+    showAlert: false,
+    updateSucceeded: false,
+    alertMsg: '',
+    isNewEmployee: false
+  }
+)
 
 class EmployeeForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      id: this.props.employee.id,
-      name: this.props.employee.name,
-      modifiedAt: this.props.employee.createdAt,
-      showAlert: false,
-      updateSucceeded: false,
-      alertMsg: ''
+    const isUpdateEmployee = this.props.employee
+    if (isUpdateEmployee) {
+      this.state = createUpdateEmployeeInitalState(this.props.employee)
+    } else {
+      this.state = createNewEmployeeInitialState()
     }
     this.onNameChange = this.onNameChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
@@ -40,6 +58,8 @@ class EmployeeForm extends React.Component {
     if (response.ok) {
       const payload = await response.json()
       this.setState({
+        id: payload.id,
+        name: payload.name,
         modifiedAt: payload.createdAt,
         showAlert: true,
         updateSucceeded: true,

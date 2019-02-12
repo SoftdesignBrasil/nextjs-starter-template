@@ -1,8 +1,6 @@
 // TODO See how to import this css globally
 import 'bootstrap/dist/css/bootstrap.css'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import { Container, Row, Col } from 'react-bootstrap'
 import fetch from 'isomorphic-unfetch'
 
 import EmployeeTable from '../components/EmployeeTable'
