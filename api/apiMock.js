@@ -14,8 +14,14 @@ const mockEmployees = () => {
   return employees
 }
 
+const EMPLOYEE_DATA = mockEmployees()
+
+router.get('/employee/:id', (req, res) => {
+  res.json(EMPLOYEE_DATA[req.params.id - 1])
+})
+
 router.get('/employees', (req, res) => {
-  res.json(mockEmployees())
+  res.json(EMPLOYEE_DATA)
 })
 
 module.exports = router

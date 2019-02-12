@@ -1,5 +1,6 @@
 import Table from 'react-bootstrap/Table'
 import Badge from 'react-bootstrap/Badge'
+import Link from 'next/link'
 
 const getEmployeeRows = (employees) => {
   return employees.map((emp) => (
@@ -7,7 +8,11 @@ const getEmployeeRows = (employees) => {
         <td>{emp.name}</td>
         <td>{emp.createdAt}</td>
         <td>
-          <Badge className="float-right mr-3" variant="info" pill="true">Edit</Badge>
+          <Link prefetch href={`/employeeDetail?id=${emp.id}`}>
+            <a>
+              <Badge className="float-right mr-3" variant="info" pill="true">Edit</Badge>
+            </a>
+          </Link>
         </td>
       </tr>
     )

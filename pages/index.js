@@ -1,3 +1,4 @@
+// TODO See how to import this css globally
 import 'bootstrap/dist/css/bootstrap.css'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
