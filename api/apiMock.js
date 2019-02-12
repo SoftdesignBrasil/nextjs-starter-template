@@ -5,10 +5,11 @@ const router = express.Router()
 const mockEmployees = () => {
   const employees = []
   for (let i = 0; i <= 9; i++) {
-    const employee = {}
-    employee.id = i + 1
-    employee.name = `Employee${i + 1}`
-    employee.createdAt = new Date()
+    const employee = {
+      id: i + 1,
+      name: `Employee${i + 1}`,
+      createdAt: new Date()
+    }
     employees.push(employee)
   }
   return employees
@@ -22,6 +23,13 @@ router.get('/employee/:id', (req, res) => {
 
 router.get('/employees', (req, res) => {
   res.json(EMPLOYEE_DATA)
+})
+
+router.post('/employee', (req, res) => {
+  const employeeIndex = req.body.id - 1
+  EMPLOYEE_DATA[employeeIndex].name = req.body.name
+  EMPLOYEE_DATA[employeeIndex].createdAt = new Date()
+  res.sendStatus(200)
 })
 
 module.exports = router

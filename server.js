@@ -11,6 +11,9 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   const server = express()
 
+  // JSON Body Parser
+  server.use(express.json())
+
   // Api de Mock
   server.use('/api', apiRouter)
 
