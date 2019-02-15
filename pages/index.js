@@ -1,8 +1,9 @@
 // TODO See how to import this css globally
 import 'bootstrap/dist/css/bootstrap.css'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 import fetch from 'isomorphic-unfetch'
 import SimpleTable from '../components/generics/SimpleTable'
+import Link from 'next/link'
 
 const injectDetailUrls = (data) => {
   data.forEach((obj) => {
@@ -16,20 +17,25 @@ const Index = (props) => (
     <Row className="mb-5 mt-3">
       <Col>
         <p className="text-center">Sample Application With React/Bootstrap \o/</p>
-        
       </Col>
     </Row>
-    <Row>
-      <SimpleTable
-        visibleDataProps={['name', 'createdAt']}
-        tableHeaders={['Nome', 'Criado Em']}
-        dataIdKey="id"
-        detailUrlKey="detailUrl"
-        data={props.employees}
-        striped="true"
-        hover="true"
-      />
+    <Row className="pb-3">
+      <Col>
+        <Link href="/employee">
+          <Button className="float-right" variant="primary">New Employee</Button>
+        </Link>
+      </Col>
     </Row>
+    <SimpleTable
+      visibleDataProps={['name', 'createdAt', 'id']}
+      tableHeaders={['Name', 'Created At', 'ID']}
+      dataIdKey="id"
+      detailUrlKey="detailUrl"
+      data={props.employees}
+      striped="true"
+      hover="true"
+      border="true"
+    />
   </Container>
 )
 
