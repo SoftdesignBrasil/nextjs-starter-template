@@ -7,7 +7,7 @@ const NavMenu = (props) => (
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
         <Nav.Link href="/">Home</Nav.Link>
-        <NavDropdown cla title="Employee" id="basic-nav-dropdown">
+        <NavDropdown title="Employee" id="basic-nav-dropdown">
           <NavDropdown.Item href="/employee">New</NavDropdown.Item>
         </NavDropdown>
       </Nav>

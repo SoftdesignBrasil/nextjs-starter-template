@@ -1,13 +1,18 @@
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import fetch from 'isomorphic-unfetch'
-import SimpleTable from '../components/generics/SimpleTable'
 import Link from 'next/link'
+import Router from 'next/router'
+import DataTable from '../components/DataTable'
 
 const injectDetailUrls = (data) => {
   data.forEach((obj) => {
     obj.detailUrl = `/employee?id=${obj.id}`
   })
   return data
+}
+
+const onRowClick = (event, row, rowIndex) => {
+  Router.push(`/employee?id=${row.id}`)
 }
 
 const Index = (props) => (
@@ -24,15 +29,26 @@ const Index = (props) => (
         </Link>
       </Col>
     </Row>
-    <SimpleTable
-      visibleDataProps={['name', 'createdAt', 'id']}
-      tableHeaders={['Name', 'Created At', 'ID']}
-      dataIdKey="id"
-      detailUrlKey="detailUrl"
+    <DataTable
+      keyField="id"
       data={props.employees}
-      striped="true"
-      hover="true"
-      border="true"
+      onRowClick={onRowClick}
+      visibleColumns={[
+        {
+          dataField: 'id',
+          text: 'ID'
+        },
+        {
+          dataField: 'name',
+          text: 'Name',
+          sort: true
+        },
+        {
+          dataField: 'createdAt',
+          text: 'Created At',
+          sort: true
+        }
+      ]}
     />
   </Container>
 )
