@@ -23,13 +23,13 @@ export default class SimpleFormLayout extends React.Component {
             <Col>
               <Link prefetch href={this.props.goBackHref}>
                 <Button variant="secondary">
-                  Go Back
+                  Voltar
                 </Button>
               </Link>
             </Col>
             <Col>
               <Button className="float-right" variant="primary" type="submit">
-                Submit
+                Salvar
               </Button>
             </Col>
           </Row>

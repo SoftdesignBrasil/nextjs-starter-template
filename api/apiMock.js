@@ -7,7 +7,7 @@ const mockEmployees = () => {
   for (let i = 0; i <= 9; i++) {
     const employee = {
       id: i + 1,
-      name: `Employee${i + 1}`,
+      name: `Funcionário ${i + 1}`,
       createdAt: new Date()
     }
     employees.push(employee)

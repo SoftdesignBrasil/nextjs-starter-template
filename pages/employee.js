@@ -64,13 +64,13 @@ class Employee extends React.Component {
         modifiedAt: formatDate(payload.createdAt),
         showAlert: true,
         updateSucceeded: true,
-        alertMsg: 'Updated employee'
+        alertMsg: 'Salvo com sucesso'
       })
     } else {
       this.setState({
         showAlert: true,
         updateSucceeded: false,
-        alertMsg: 'Fail to update employee'
+        alertMsg: 'Falha ao salvar'
       })
     }
   }
@@ -103,7 +103,7 @@ class Employee extends React.Component {
         <Row>
           <Col>
             <Form.Group controlId="formName">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Nome</Form.Label>
               <Form.Control
                 type="text"
                 value={this.state.name}
@@ -112,7 +112,7 @@ class Employee extends React.Component {
               />
             </Form.Group>
             <Form.Group controlId="formDate">
-              <Form.Label>Modified At</Form.Label>
+              <Form.Label>Modificado Em</Form.Label>
               <Form.Control
                 type="text"
                 value={this.state.modifiedAt}

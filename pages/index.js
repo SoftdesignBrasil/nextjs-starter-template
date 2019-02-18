@@ -20,13 +20,13 @@ const Index = (props) => (
   <Container>
     <Row className="mb-5 mt-3">
       <Col>
-        <p className="text-center">Sample Application With React/Bootstrap \o/</p>
+        <p className="text-center">Gerenciador de Funcionários</p>
       </Col>
     </Row>
     <Row className="pb-3">
       <Col>
         <Link href="/employee">
-          <Button className="float-right" variant="primary">New Employee</Button>
+          <Button className="float-right" variant="primary">Novo Funcionário</Button>
         </Link>
       </Col>
     </Row>
@@ -41,12 +41,12 @@ const Index = (props) => (
         },
         {
           dataField: 'name',
-          text: 'Name',
+          text: 'Nome',
           sort: true
         },
         {
           dataField: 'modifiedAt',
-          text: 'Modified At',
+          text: 'Modificado Em',
           sort: true
         }
       ]}
