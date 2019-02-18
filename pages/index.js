@@ -1,5 +1,3 @@
-// TODO See how to import this css globally
-import 'bootstrap/dist/css/bootstrap.css'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import fetch from 'isomorphic-unfetch'
 import SimpleTable from '../components/generics/SimpleTable'
