@@ -2,6 +2,7 @@ import { Form, Row, Col } from 'react-bootstrap'
 import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import SimpleFormLayout from '../components/generics/SimpleFormLayout'
+import { formatDate } from '../utils/FormatUtil'
 
 const createNewEmployeeInitialState = () => (
   {
@@ -60,7 +61,7 @@ class Employee extends React.Component {
       this.setState({
         id: payload.id,
         name: payload.name,
-        modifiedAt: payload.createdAt,
+        modifiedAt: formatDate(payload.createdAt),
         showAlert: true,
         updateSucceeded: true,
         alertMsg: 'Updated employee'
@@ -130,6 +131,7 @@ Employee.getInitialProps = async (context) => {
   if (isUpdateEmployee) {
     const res = await fetch(`http://localhost:3000/api/employee/${context.query.id}`)
     const employee = await res.json()
+    employee.createdAt = formatDate(employee.createdAt)
 
     console.log(`Fetched Employee: ${JSON.stringify(employee)}`)
 

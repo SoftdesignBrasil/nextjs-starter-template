@@ -3,10 +3,11 @@ import fetch from 'isomorphic-unfetch'
 import Link from 'next/link'
 import Router from 'next/router'
 import DataTable from '../components/DataTable'
+import { formatDate } from '../utils/FormatUtil'
 
-const injectDetailUrls = (data) => {
+const correctDateFormat = (data) => {
   data.forEach((obj) => {
-    obj.detailUrl = `/employee?id=${obj.id}`
+    obj.modifiedAt = formatDate(obj.createdAt)
   })
   return data
 }
@@ -44,8 +45,8 @@ const Index = (props) => (
           sort: true
         },
         {
-          dataField: 'createdAt',
-          text: 'Created At',
+          dataField: 'modifiedAt',
+          text: 'Modified At',
           sort: true
         }
       ]}
@@ -60,7 +61,7 @@ Index.getInitialProps = async (context) => {
   console.log(`Fetched ${employees.length} employees`)
 
   return {
-    employees: injectDetailUrls(employees)
+    employees: correctDateFormat(employees)
   }
 }
 
