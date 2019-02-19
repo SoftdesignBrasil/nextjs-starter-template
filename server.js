@@ -18,9 +18,14 @@ app.prepare().then(() => {
   // Api de Mock
   server.use('/api', employeeApiRouter, sectorApiRouter)
 
-  server.get('/employee', (req, res) => {
-    app.render(req, res, '/employee', {id: req.param.id})
+  server.get('/employee/:id', (req, res) => {
+    app.render(req, res, '/employee', {id: req.params.id})
   })
+
+  server.get('/sector/:id', (req, res) => {
+    app.render(req, res, '/sector', {id: req.params.id})
+  })
+
   // Faz a rota default do NEXT JS baseado nos arquivos do dir: pages;
   server.get('*', (req, res) => {
     return handle(req, res)

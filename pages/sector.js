@@ -16,6 +16,19 @@ const createUpdateSectorInitialState = ({sector, sectorEmployees}) => (
   }
 )
 
+const createNewSectorInitialState = () => (
+  {
+    id: '',
+    name: '',
+    type: '',
+    sectorEmployees: [],
+    selectedEmployeeId: '',
+    showAlert: false,
+    formSuccess: false,
+    alertMsg: ''
+  }
+)
+
 const createOptionsSelectList = (selectListData) => (
   selectListData.map((data) => (
     <option key={data.value} value={data.value}>{ data.display }</option>
@@ -62,8 +75,12 @@ const createSectorEmployeesListGroupItems = (sectorEmployees) => (
 export default class Sector extends React.Component {
   constructor(props) {
     super(props)
-    this.state = createUpdateSectorInitialState(props)
 
+    if (props.isUpdateSector) {
+      this.state = createUpdateSectorInitialState(props)
+    } else {
+      this.state = createNewSectorInitialState()
+    }
     this.onTypeChange = this.onTypeChange.bind(this)
     this.onAddSectorEmployee = this.onAddSectorEmployee.bind(this)
     this.onEmployeeChange = this.onEmployeeChange.bind(this)
@@ -73,28 +90,33 @@ export default class Sector extends React.Component {
   }
 
   static async getInitialProps(context) {
-    let res = await fetch(`http://localhost:3000/api/sector/${context.query.id}`)
-    const sector = await res.json()
+    const isUpdateSector = !!context.query.id
+    let sector = {}
+    let sectorEmployees = []
+    let res
 
     res = await fetch('http://localhost:3000/api/sectorType')
     const sectorTypes = await res.json()
+    console.log(`Fetched Sector Types: ${JSON.stringify(sectorTypes)}`)
 
     res = await fetch(`http://localhost:3000/api/employees`)
     const employees = await res.json()
-
-    const sectorEmployees = filterSectorEmployees(employees, sector.employees)
-
-    console.log(`Fetched Sector: ${JSON.stringify(sector)}`)
-    console.log(`Fetched Sector Types: ${JSON.stringify(sectorTypes)}`)
     console.log(`Fecthed Employees: ${JSON.stringify(employees)}`)
-    console.log(`Fetched Sector Employees: ${JSON.stringify(sectorEmployees)}`)
+
+    if (isUpdateSector) {
+      let res = await fetch(`http://localhost:3000/api/sector/${context.query.id}`)
+      sector = await res.json()
+      console.log(`Fetched Sector: ${JSON.stringify(sector)}`)
+      sectorEmployees = filterSectorEmployees(employees, sector.employees)
+    }
 
     return {
       sector,
       sectorEmployees,
       sectorTypeSelectList: createSectorTypeSelectList(sectorTypes),
       employeeSelectList: createEmployeeSelectList(employees),
-      employees
+      employees,
+      isUpdateSector
     }
   }
 
@@ -147,7 +169,7 @@ export default class Sector extends React.Component {
     event.preventDefault()
 
     const response = await fetch('http://localhost:3000/api/sector', {
-      method: 'PUT',
+      method: this.props.isUpdateSector ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json'
       },

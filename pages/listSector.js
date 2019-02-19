@@ -3,14 +3,6 @@ import fetch from 'isomorphic-unfetch'
 import Link from 'next/link'
 import Router from 'next/router'
 import DataTable from '../components/DataTable'
-import { formatDate } from '../utils/FormatUtil'
-
-// const correctDateFormat = (data) => {
-//   data.forEach((obj) => {
-//     obj.modifiedAt = formatDate(obj.createdAt)
-//   })
-//   return data
-// }
 
 const onRowClick = (event, row, rowIndex) => {
   const url = `/sector?id=${row.id}`
@@ -27,7 +19,7 @@ const ListSector = (props) => (
     </Row>
     <Row className="pb-3">
       <Col>
-        <Link href="/">
+        <Link href="/sector">
           <Button className="float-right" variant="primary">Novo Setor</Button>
         </Link>
       </Col>
