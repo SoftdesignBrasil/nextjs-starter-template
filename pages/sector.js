@@ -1,7 +1,8 @@
-import { Form, Row, Col, Button, ListGroup } from 'react-bootstrap'
+import { Form, Row, Col } from 'react-bootstrap'
 import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import SimpleFormLayout from '../components/generics/SimpleFormLayout'
+import MultipleSelect from '../components/generics/MultipleSelect'
 
 const createUpdateSectorInitialState = ({sector, sectorEmployees}) => (
   {
@@ -59,17 +60,6 @@ const createEmployeeSelectList = (employees)=> (
     value: employee.id,
     display: employee.name
   }))
-)
-
-const createSectorEmployeesListGroupItems = (sectorEmployees) => (
-  sectorEmployees.map(data => (
-    <ListGroup.Item
-      variant="info"
-      key={data.id}
-    >
-      { data.name }
-    </ListGroup.Item>
-  ))
 )
 
 export default class Sector extends React.Component {
@@ -133,14 +123,16 @@ export default class Sector extends React.Component {
   }
 
   onAddSectorEmployee() {
+    const isEmployeeNotSelected = !this.state.selectedEmployeeId
+
     const isEmployeeAlreadyAdded = this.state.sectorEmployees.some(emp => (
       emp.id === Number(this.state.selectedEmployeeId)
     ))
 
-    if (isEmployeeAlreadyAdded) {
+    if (isEmployeeAlreadyAdded || isEmployeeNotSelected) {
       return this.setState({
         showAlert: true,
-        alertMsg: 'Funcionário já vinculado',
+        alertMsg: isEmployeeAlreadyAdded ? 'Funcionário já vinculado' : 'Selecione um Funcionário',
         formSuccess: false
       })
     }
@@ -229,33 +221,21 @@ export default class Sector extends React.Component {
                 { createOptionsSelectList(this.props.sectorTypeSelectList) }
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="formEmployeeList">
-              <Form.Label>Funcionários Vínculados</Form.Label>
-              <Row className="pb-2">
-                <Col xs={9}>
-                  <Form.Control
-                    as="select"
-                    value={this.state.selectedEmployeeId}
-                    onChange={this.onEmployeeChange}
-                  >
-                    <option value="">Selecione para víncular</option>
-                    { createOptionsSelectList(this.props.employeeSelectList) }
-                  </Form.Control>
-                </Col>
-                <Col xs={3}>
-                  <Button
-                    className="float-right"
-                    variant="info"
-                    onClick={this.onAddSectorEmployee}
-                  >
-                    Víncular Funcionário
-                  </Button>
-                </Col>
-              </Row>
-              <ListGroup>
-                { createSectorEmployeesListGroupItems(this.state.sectorEmployees) }
-              </ListGroup>
-            </Form.Group>
+            <MultipleSelect
+              label="Funcionários Vínculados"
+              value={this.state.selectedEmployeeId}
+              onValueChange={this.onEmployeeChange}
+              defaultSelectValue=""
+              defaultSelectLabel="Selecione para víncular"
+              selectList={this.props.employeeSelectList}
+              selectValueKey="value"
+              selectLabelKey="display"
+              onAddValue={this.onAddSectorEmployee}
+              addValueLabel="Víncular Funcionário"
+              selectedData={this.state.sectorEmployees}
+              selectedDataValueKey="id"
+              selectedDataLabelKey="name"
+            />
           </Col>
         </Row>
       </SimpleFormLayout>
