@@ -1,4 +1,5 @@
-const apiRouter = require('./api/apiMock')
+const employeeApiRouter = require('./api/employeeApiMock')
+const sectorApiRouter = require('./api/sectorApiMock')
 
 const express = require('express')
 const next = require('next')
@@ -15,8 +16,11 @@ app.prepare().then(() => {
   server.use(express.json())
 
   // Api de Mock
-  server.use('/api', apiRouter)
+  server.use('/api', employeeApiRouter, sectorApiRouter)
 
+  server.get('/employee', (req, res) => {
+    app.render(req, res, '/employee', {id: req.param.id})
+  })
   // Faz a rota default do NEXT JS baseado nos arquivos do dir: pages;
   server.get('*', (req, res) => {
     return handle(req, res)
