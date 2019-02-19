@@ -8,7 +8,12 @@ const NavMenu = (props) => (
       <Nav className="mr-auto">
         <Nav.Link href="/">Home</Nav.Link>
         <NavDropdown title="Funcionário" id="basic-nav-dropdown">
+          <NavDropdown.Item href="/">Lista</NavDropdown.Item>
           <NavDropdown.Item href="/employee">Novo</NavDropdown.Item>
+        </NavDropdown>
+        <NavDropdown title="Setor" id="sector-nav-dropdown">
+          <NavDropdown.Item href="/listSector">Lista</NavDropdown.Item>
+          <NavDropdown.Item href="/sector">Novo</NavDropdown.Item>
         </NavDropdown>
       </Nav>
     </Navbar.Collapse>

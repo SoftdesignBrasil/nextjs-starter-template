@@ -4,7 +4,12 @@ import Link from 'next/link'
 export default class SimpleFormLayout extends React.Component {
   render() {
     return (
-      <Container className="pt-5">
+      <Container>
+        <Row className="mb-5 mt-3">
+          <Col>
+            <h4 className="text-center">{this.props.formLabel}</h4>
+          </Col>
+        </Row>
         <Row>
           <Col>
             <Alert
@@ -19,7 +24,7 @@ export default class SimpleFormLayout extends React.Component {
         </Row>
         <Form onSubmit={this.props.onSubmit}>
           {this.props.children}
-          <Row>
+          <Row className="pb-3">
             <Col>
               <Link prefetch href={this.props.goBackHref}>
                 <Button variant="secondary">

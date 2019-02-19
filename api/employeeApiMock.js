@@ -31,21 +31,20 @@ router.get('/employee/:id', (req, res) => {
   res.json(EMPLOYEE_DATA[req.params.id - 1])
 })
 
-router.get('/employees', (req, res) => {
+router.get('/employee', (req, res) => {
   res.json(EMPLOYEE_DATA)
 })
 
-router.post('/employee', (req, res) => {
-  let employeeIndex
-  if(req.body.id) {
-    employeeIndex = req.body.id - 1
-    EMPLOYEE_DATA[employeeIndex].name = req.body.name
-    EMPLOYEE_DATA[employeeIndex].createdAt = new Date()
-  } else {
-    EMPLOYEE_DATA.push(createNewEmployee(req.body.name))
-    employeeIndex = EMPLOYEE_DATA.length - 1
-  }
+router.put('/employee', (req, res) => {
+  const employeeIndex = req.body.id - 1
+  EMPLOYEE_DATA[employeeIndex].name = req.body.name
+  EMPLOYEE_DATA[employeeIndex].createdAt = new Date()
+  res.json(EMPLOYEE_DATA[employeeIndex])
+})
 
+router.post('/employee', (req, res) => {
+  EMPLOYEE_DATA.push(createNewEmployee(req.body.name))
+  const employeeIndex = EMPLOYEE_DATA.length - 1
   res.json(EMPLOYEE_DATA[employeeIndex])
 })
 

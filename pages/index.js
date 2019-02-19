@@ -13,14 +13,16 @@ const correctDateFormat = (data) => {
 }
 
 const onRowClick = (event, row, rowIndex) => {
-  Router.push(`/employee?id=${row.id}`)
+  const url = `/employee?id=${row.id}`
+  const as = `/employee/${row.id}`
+  Router.push(url, as)
 }
 
 const Index = (props) => (
   <Container>
     <Row className="mb-5 mt-3">
       <Col>
-        <p className="text-center">Gerenciador de Funcionários</p>
+        <h4 className="text-center">Lista de Funcionários</h4>
       </Col>
     </Row>
     <Row className="pb-3">
@@ -55,7 +57,7 @@ const Index = (props) => (
 )
 
 Index.getInitialProps = async (context) => {
-  const res = await fetch('http://localhost:3000/api/employees')
+  const res = await fetch('http://localhost:3000/api/employee')
   const employees = await res.json()
 
   console.log(`Fetched ${employees.length} employees`)

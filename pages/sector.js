@@ -89,7 +89,7 @@ export default class Sector extends React.Component {
     const sectorTypes = await res.json()
     console.log(`Fetched Sector Types: ${JSON.stringify(sectorTypes)}`)
 
-    res = await fetch(`http://localhost:3000/api/employees`)
+    res = await fetch(`http://localhost:3000/api/employee`)
     const employees = await res.json()
     console.log(`Fecthed Employees: ${JSON.stringify(employees)}`)
 
@@ -189,7 +189,6 @@ export default class Sector extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <SimpleFormLayout
         goBackHref="/listSector"
@@ -199,6 +198,7 @@ export default class Sector extends React.Component {
         onAlertClose={this.onClose}
         alertDismissible={true}
         alertMsg={this.state.alertMsg}
+        formLabel="Novo Setor"
       >
         <Row>
           <Col>

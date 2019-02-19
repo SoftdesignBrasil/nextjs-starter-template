@@ -46,7 +46,7 @@ class Employee extends React.Component {
     event.preventDefault()
 
     const response = await fetch('http://localhost:3000/api/employee', {
-      method: 'POST',
+      method: this.state.isNewEmployee ? 'POST' : 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -99,6 +99,7 @@ class Employee extends React.Component {
         onAlertClose={this.onClose}
         alertDismissible={true}
         alertMsg={this.state.alertMsg}
+        formLabel="Novo Funcionário"
       >
         <Row>
           <Col>
