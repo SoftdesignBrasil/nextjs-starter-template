@@ -1,13 +1,11 @@
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import fetch from 'isomorphic-unfetch'
-import Link from 'next/link'
-import Router from 'next/router'
+import { Link } from '../config/routes'
+import { Router } from '../config/routes'
 import DataTable from '../components/DataTable'
 
 const onRowClick = (event, row, rowIndex) => {
-  const url = `/sector?id=${row.id}`
-  const as = `/sector/${row.id}`
-  Router.push(url, as)
+  Router.pushRoute(`/sector/${row.id}`)
 }
 
 const ListSector = (props) => (
@@ -19,7 +17,7 @@ const ListSector = (props) => (
     </Row>
     <Row className="pb-3">
       <Col>
-        <Link href="/sector">
+        <Link route="/sector">
           <Button className="float-right" variant="primary">Novo Setor</Button>
         </Link>
       </Col>

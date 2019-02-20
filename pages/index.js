@@ -1,7 +1,7 @@
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import fetch from 'isomorphic-unfetch'
-import Link from 'next/link'
-import Router from 'next/router'
+import { Link } from '../config/routes'
+import { Router } from '../config/routes'
 import DataTable from '../components/DataTable'
 import { formatDate } from '../utils/FormatUtil'
 
@@ -13,9 +13,7 @@ const correctDateFormat = (data) => {
 }
 
 const onRowClick = (event, row, rowIndex) => {
-  const url = `/employee?id=${row.id}`
-  const as = `/employee/${row.id}`
-  Router.push(url, as)
+  Router.pushRoute(`/employee/${row.id}`)
 }
 
 const Index = (props) => (
@@ -27,7 +25,7 @@ const Index = (props) => (
     </Row>
     <Row className="pb-3">
       <Col>
-        <Link href="/employee">
+        <Link route="/employee">
           <Button className="float-right" variant="primary">Novo Funcionário</Button>
         </Link>
       </Col>

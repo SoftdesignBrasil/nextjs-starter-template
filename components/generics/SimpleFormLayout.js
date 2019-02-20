@@ -1,5 +1,5 @@
 import { Form, Button, Alert, Col, Row, Container } from 'react-bootstrap'
-import Link from 'next/link'
+import { Link } from '../../config/routes'
 
 export default class SimpleFormLayout extends React.Component {
   render() {
@@ -26,7 +26,7 @@ export default class SimpleFormLayout extends React.Component {
           {this.props.children}
           <Row className="pb-3">
             <Col>
-              <Link prefetch href={this.props.goBackHref}>
+              <Link prefetch route={this.props.goBackHref}>
                 <Button variant="secondary">
                   Voltar
                 </Button>
