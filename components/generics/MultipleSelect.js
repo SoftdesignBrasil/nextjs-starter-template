@@ -22,7 +22,7 @@ const createSelectedDataListGroupItems = (selectedData, selectValueKey, selectLa
 )
 
 const MultipleSelect = (props) => (
-  <Form.Group controlId="formEmployeeList">
+  <Form.Group>
     <Form.Label>{ props.label }</Form.Label>
     <Row className="pb-2">
       <Col xs="auto" className="flex-fill">
