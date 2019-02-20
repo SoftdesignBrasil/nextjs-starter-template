@@ -47,7 +47,7 @@ const ListSector = (props) => (
 )
 
 ListSector.getInitialProps = async (context) => {
-  const res = await fetch('http://localhost:3000/api/sector')
+  const res = await fetch(`${process.env.API_HOST}/sector`)
   const sectors = await res.json()
 
   console.log(`Fetched ${sectors.length} sectors`)

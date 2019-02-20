@@ -85,16 +85,16 @@ export default class Sector extends React.Component {
     let sectorEmployees = []
     let res
 
-    res = await fetch('http://localhost:3000/api/sectorType')
+    res = await fetch(`${process.env.API_HOST}/sectorType`)
     const sectorTypes = await res.json()
     console.log(`Fetched Sector Types: ${JSON.stringify(sectorTypes)}`)
 
-    res = await fetch(`http://localhost:3000/api/employee`)
+    res = await fetch(`${process.env.API_HOST}/employee`)
     const employees = await res.json()
     console.log(`Fecthed Employees: ${JSON.stringify(employees)}`)
 
     if (isUpdateSector) {
-      let res = await fetch(`http://localhost:3000/api/sector/${context.query.id}`)
+      let res = await fetch(`${process.env.API_HOST}/sector/${context.query.id}`)
       sector = await res.json()
       console.log(`Fetched Sector: ${JSON.stringify(sector)}`)
       sectorEmployees = filterSectorEmployees(employees, sector.employees)
@@ -160,7 +160,7 @@ export default class Sector extends React.Component {
   async onFormSubmit(event) {
     event.preventDefault()
 
-    const response = await fetch('http://localhost:3000/api/sector', {
+    const response = await fetch(`${process.env.API_HOST}/sector`, {
       method: this.props.isUpdateSector ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json'

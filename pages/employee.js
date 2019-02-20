@@ -45,7 +45,7 @@ class Employee extends React.Component {
   async onFormSubmit(event) {
     event.preventDefault()
 
-    const response = await fetch('http://localhost:3000/api/employee', {
+    const response = await fetch(`${process.env.API_HOST}/employee`, {
       method: this.state.isNewEmployee ? 'POST' : 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ class Employee extends React.Component {
 Employee.getInitialProps = async (context) => {
   const isUpdateEmployee = context.query && context.query.id
   if (isUpdateEmployee) {
-    const res = await fetch(`http://localhost:3000/api/employee/${context.query.id}`)
+    const res = await fetch(`${process.env.API_HOST}/employee/${context.query.id}`)
     const employee = await res.json()
     employee.createdAt = formatDate(employee.createdAt)
 

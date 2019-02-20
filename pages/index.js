@@ -55,7 +55,7 @@ const Index = (props) => (
 )
 
 Index.getInitialProps = async (context) => {
-  const res = await fetch('http://localhost:3000/api/employee')
+  const res = await fetch(`${process.env.API_HOST}/employee`)
   const employees = await res.json()
 
   console.log(`Fetched ${employees.length} employees`)
