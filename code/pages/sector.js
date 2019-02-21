@@ -77,6 +77,7 @@ export default class Sector extends React.Component {
     this.onClose = this.onClose.bind(this)
     this.onNameChange = this.onNameChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.onRemove = this.onRemove.bind(this)
   }
 
   static async getInitialProps(context) {
@@ -108,6 +109,16 @@ export default class Sector extends React.Component {
       employees,
       isUpdateSector
     }
+  }
+
+  onRemove(event) {
+    const sectorEmployeeId = Number(event.target.dataset.id)
+    const newSectorEmployees = this.state.sectorEmployees.filter(emp => (
+      emp.id !== sectorEmployeeId
+    ))
+    this.setState({
+      sectorEmployees: newSectorEmployees
+    })
   }
 
   onClose() {
@@ -218,7 +229,7 @@ export default class Sector extends React.Component {
                 value={this.state.type}
                 onChange={this.onTypeChange}
               >
-                { createOptionsSelectList(this.props.sectorTypeSelectList) }
+                {createOptionsSelectList(this.props.sectorTypeSelectList)}
               </Form.Control>
             </Form.Group>
             <MultipleSelect
@@ -235,6 +246,7 @@ export default class Sector extends React.Component {
               selectedData={this.state.sectorEmployees}
               selectedDataValueKey="id"
               selectedDataLabelKey="name"
+              onRemove={this.onRemove}
             />
           </Col>
         </Row>
