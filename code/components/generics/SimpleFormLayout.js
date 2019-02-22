@@ -2,6 +2,25 @@ import { Form, Button, Alert, Col, Row, Container } from 'react-bootstrap'
 import { Link } from '../../config/routes'
 
 export default class SimpleFormLayout extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { timeoutId: 0 }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.state.timeoutId)
+  }
+
+  componentDidUpdate(prevProps) {
+    const alertIsAboutToShow = (!prevProps.showAlert)
+      && this.props.showAlert !== prevProps.showAlert
+
+    if (alertIsAboutToShow) {
+      const timeoutId = setTimeout(() => { this.props.onAlertClose() }, 5000)
+      this.setState({ timeoutId })
+    }
+  }
+
   render() {
     return (
       <Container>
@@ -16,7 +35,6 @@ export default class SimpleFormLayout extends React.Component {
               show={this.props.showAlert}
               variant={this.props.formSubmitSuccess ? 'success' : 'danger'}
               onClose={this.props.onAlertClose}
-              dismissible={this.props.alertDismissible}
             >
               {this.props.alertMsg}
             </Alert>

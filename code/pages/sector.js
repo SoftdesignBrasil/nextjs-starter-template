@@ -207,7 +207,6 @@ export default class Sector extends React.Component {
         showAlert={this.state.showAlert}
         formSubmitSuccess={this.state.formSuccess}
         onAlertClose={this.onClose}
-        alertDismissible={true}
         alertMsg={this.state.alertMsg}
         formLabel="Novo Setor"
       >

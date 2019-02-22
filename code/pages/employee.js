@@ -97,7 +97,6 @@ class Employee extends React.Component {
         showAlert={this.state.showAlert}
         formSubmitSuccess={this.state.updateSucceeded}
         onAlertClose={this.onClose}
-        alertDismissible={true}
         alertMsg={this.state.alertMsg}
         formLabel="Novo Funcionário"
       >
