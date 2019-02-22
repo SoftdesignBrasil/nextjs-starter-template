@@ -45,7 +45,7 @@ const MultipleSelect = (props) => (
         </Col>
       </Row>
       <Row>
-        <Col xs="auto" className="flex-fill">
+        <Col xs="auto" className="flex-fill pt-2 pt-sm-0">
           <Form.Control
             as="select"
             value={props.value}
@@ -55,7 +55,7 @@ const MultipleSelect = (props) => (
             {createOptionsSelectList(props.selectList, props.selectValueKey, props.selectLabelKey)}
           </Form.Control>
         </Col>
-        <Col xs="auto">
+        <Col className="pt-2 pt-sm-0" xs="auto">
           <Button
             className="float-right"
             variant="secondary"

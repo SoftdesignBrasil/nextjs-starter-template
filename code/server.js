@@ -4,6 +4,7 @@ const sectorApiRouter = require('./api/sectorApiMock')
 const express = require('express')
 const next = require('next')
 const routes = require('./config/routes')
+const cors = require('cors')
 
 require('dotenv').config()
 
@@ -14,6 +15,9 @@ const handle = routes.getRequestHandler(app)
 
 app.prepare().then(() => {
   const server = express()
+
+  // Enable CORS request for API
+  server.use(cors())
 
   // JSON Body Parser
   server.use(express.json())

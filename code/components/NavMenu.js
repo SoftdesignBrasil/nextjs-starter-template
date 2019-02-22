@@ -1,7 +1,7 @@
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 const NavMenu = (props) => (
-  <Navbar bg="dark" variant="dark" expand="sm">
+  <Navbar bg="dark" variant="dark" expand="md">
     <Navbar.Brand href="/">Gerenciador</Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
