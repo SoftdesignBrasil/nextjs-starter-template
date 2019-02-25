@@ -3,24 +3,28 @@ require('dotenv').config()
 
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
-const webpackDotEnvConfig = {
-  webpack: config => {
-    config.plugins = config.plugins || []
 
-    config.plugins = [
-      ...config.plugins,
+const dotEnvWebpackPlugin = new Dotenv({
+  path: path.join(__dirname, '.env'),
+  systemvars: true
+})
 
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true
-      })
-    ]
+const extendWebpackConfig = (config) => {
+  // Extending plugins
+  config.plugins = config.plugins || []
+  // If new plugin required, append to this array.
+  config.plugins = [
+    ...config.plugins,
+    dotEnvWebpackPlugin
+  ]
 
-    return config
-  }
+  return config
 }
 
-// Support for import CSS in JS, with DOTENV support.
+const customWebpackConfig = {
+  webpack: extendWebpackConfig
+}
+
+// Support for import CSS in JS, with CUSTOM webpack config.
 const withCSS = require('@zeit/next-css')
-module.exports = withCSS(webpackDotEnvConfig)
+module.exports = withCSS(customWebpackConfig)
