@@ -36,8 +36,8 @@ const DataTable = (props) => (
       wrapperClasses="dtTable"
     />
     { props.onRowClick ? clickableRowStyle : null }
-    <style global jsx>{`
-      .table-responsive-sm table {
+    <style jsx>{`
+      .table-responsive-sm :global(table) {
         table-layout: auto;
       }
     `}</style>

@@ -3,6 +3,7 @@ import React from 'react'
 import App, { Container } from 'next/app'
 import NavMenu from '../components/NavMenu'
 import Head from 'next/head'
+import '../config/configFontAwesome'
 
 export default class CustomApp extends App {
   static async getInitialProps({ Component, ctx }) {

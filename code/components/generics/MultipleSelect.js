@@ -1,5 +1,5 @@
 import { Form, Row, Col, Button, Badge } from 'react-bootstrap'
-import Head from 'next/head'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const createOptionsSelectList = (selectListData, selectValueKey, selectLabelKey) => (
   selectListData.map((data) => (
@@ -19,10 +19,12 @@ const createSelectedDataListGroupItems = (selectedData, selectValueKey, selectLa
     >
       <Badge pill variant="secondary">
         <span className="pr-2">{ data[selectLabelKey] }</span>
-        <i data-id={data[selectValueKey]} onClick={onRemove} className="remove fas fa-times-circle"></i>
+        <span onClick={onRemove} data-id={data[selectValueKey]} className="remove">
+          <FontAwesomeIcon icon="times-circle" pointerEvents="none" size="lg" />
+        </span>
       </Badge>
-      <style global jsx>{`
-        .remove {
+      <style jsx>{`
+        :global(.remove) {
           cursor: pointer;
         }
       `}</style>
@@ -32,9 +34,6 @@ const createSelectedDataListGroupItems = (selectedData, selectValueKey, selectLa
 
 const MultipleSelect = (props) => (
   <div>
-    <Head>
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
-    </Head>
     <Form.Group>
       <Form.Label>{props.label}</Form.Label>
       <Row>
