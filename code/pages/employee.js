@@ -107,7 +107,7 @@ class Employee extends React.Component {
               <Form.Control
                 type="text"
                 value={this.state.name}
-                placeholder="Enter name"
+                placeholder="Informe o nome"
                 onChange={this.onNameChange}
               />
             </Form.Group>
