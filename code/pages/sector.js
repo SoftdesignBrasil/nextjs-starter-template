@@ -3,6 +3,7 @@ import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import SimpleFormLayout from '../components/generics/SimpleFormLayout'
 import MultipleSelect from '../components/generics/MultipleSelect'
+import PrimarySecondaryBtn from '../components/generics/PrimarySecondaryBtn'
 
 const createUpdateSectorInitialState = ({sector, sectorEmployees}) => (
   {
@@ -202,7 +203,6 @@ export default class Sector extends React.Component {
   render() {
     return (
       <SimpleFormLayout
-        goBackHref="/listSector"
         onSubmit={this.onFormSubmit}
         showAlert={this.state.showAlert}
         formSubmitSuccess={this.state.formSuccess}
@@ -249,6 +249,11 @@ export default class Sector extends React.Component {
             />
           </Col>
         </Row>
+        <PrimarySecondaryBtn
+          goBackHref="/listSector"
+          secondaryLabel="Voltar"
+          primaryLabel="Salvar"
+        />
       </SimpleFormLayout>
     )
   }

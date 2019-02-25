@@ -3,6 +3,7 @@ import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import SimpleFormLayout from '../components/generics/SimpleFormLayout'
 import { formatDate } from '../utils/FormatUtil'
+import PrimarySecondaryBtn from '../components/generics/PrimarySecondaryBtn'
 
 const createNewEmployeeInitialState = () => (
   {
@@ -92,7 +93,6 @@ class Employee extends React.Component {
   render() {
     return (
       <SimpleFormLayout
-        goBackHref="/"
         onSubmit={this.onFormSubmit}
         showAlert={this.state.showAlert}
         formSubmitSuccess={this.state.updateSucceeded}
@@ -121,6 +121,11 @@ class Employee extends React.Component {
             </Form.Group>
           </Col>
         </Row>
+        <PrimarySecondaryBtn
+          goBackHref="/"
+          secondaryLabel="Voltar"
+          primaryLabel="Salvar"
+        />
       </SimpleFormLayout>
     )
   }
