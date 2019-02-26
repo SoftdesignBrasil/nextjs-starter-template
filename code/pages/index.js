@@ -51,7 +51,6 @@ Index.getInitialProps = async (context, jwtToken) => {
   })
 
   const employees = await res.json()
-  console.log(`Fetched ${employees.length} employees`)
 
   return {
     employees: correctDateFormat(employees)

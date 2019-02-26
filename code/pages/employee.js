@@ -82,8 +82,6 @@ class Employee extends React.Component {
   onNameChange(event) {
     this.setState({
       name: event.target.value
-    }, () => {
-      console.log(`New State: ${JSON.stringify(this.state)}`)
     })
   }
 
@@ -142,8 +140,6 @@ Employee.getInitialProps = async (context, jwtToken) => {
     })
     const employee = await res.json()
     employee.createdAt = formatDate(employee.createdAt)
-
-    console.log(`Fetched Employee: ${JSON.stringify(employee)}`)
 
     return {
       employee

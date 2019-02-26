@@ -92,20 +92,17 @@ export default class Sector extends React.Component {
       headers: buildAuthorizationHeader(jwtToken)
     })
     const sectorTypes = await res.json()
-    console.log(`Fetched Sector Types: ${JSON.stringify(sectorTypes)}`)
 
     res = await fetch(`${process.env.API_HOST}/employee`, {
       headers: buildAuthorizationHeader(jwtToken)
     })
     const employees = await res.json()
-    console.log(`Fecthed Employees: ${JSON.stringify(employees)}`)
 
     if (isUpdateSector) {
       let res = await fetch(`${process.env.API_HOST}/sector/${context.query.id}`, {
         headers: buildAuthorizationHeader(jwtToken)
       })
       sector = await res.json()
-      console.log(`Fetched Sector: ${JSON.stringify(sector)}`)
       sectorEmployees = filterSectorEmployees(employees, sector.employees)
     }
 

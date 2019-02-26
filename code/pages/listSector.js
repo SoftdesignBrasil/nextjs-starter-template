@@ -44,8 +44,6 @@ ListSector.getInitialProps = async (context, jwtToken) => {
   })
   const sectors = await res.json()
 
-  console.log(`Fetched ${sectors.length} sectors`)
-
   return {
     sectors
   }
