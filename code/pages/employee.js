@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch'
 import SimpleFormLayout from '../components/generics/SimpleFormLayout'
 import { formatDate } from '../utils/FormatUtil'
 import PrimarySecondaryBtn from '../components/generics/PrimarySecondaryBtn'
+import { extractJwtFromCookie, buildAuthorizationHeader } from '../utils/authentication'
 
 const createNewEmployeeInitialState = () => (
   {
@@ -46,10 +47,12 @@ class Employee extends React.Component {
   async onFormSubmit(event) {
     event.preventDefault()
 
+    const jwtToken = extractJwtFromCookie('token')
     const response = await fetch(`${process.env.API_HOST}/employee`, {
       method: this.state.isNewEmployee ? 'POST' : 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...buildAuthorizationHeader(jwtToken)
       },
       body: JSON.stringify({
         id: this.state.id,
@@ -131,10 +134,12 @@ class Employee extends React.Component {
   }
 }
 
-Employee.getInitialProps = async (context) => {
+Employee.getInitialProps = async (context, jwtToken) => {
   const isUpdateEmployee = context.query && context.query.id
   if (isUpdateEmployee) {
-    const res = await fetch(`${process.env.API_HOST}/employee/${context.query.id}`)
+    const res = await fetch(`${process.env.API_HOST}/employee/${context.query.id}`, {
+      headers: buildAuthorizationHeader(jwtToken)
+    })
     const employee = await res.json()
     employee.createdAt = formatDate(employee.createdAt)
 

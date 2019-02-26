@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch'
 import { Link } from '../config/routes'
 import { Router } from '../config/routes'
 import DataTable from '../components/generics/DataTable'
+import { buildAuthorizationHeader } from '../utils/authentication'
 
 const onRowClick = (event, row, rowIndex) => {
   Router.pushRoute(`/sector/${row.id}`)
@@ -37,8 +38,10 @@ const ListSector = (props) => (
   </Container>
 )
 
-ListSector.getInitialProps = async (context) => {
-  const res = await fetch(`${process.env.API_HOST}/sector`)
+ListSector.getInitialProps = async (context, jwtToken) => {
+  const res = await fetch(`${process.env.API_HOST}/sector`, {
+    headers: buildAuthorizationHeader(jwtToken)
+  })
   const sectors = await res.json()
 
   console.log(`Fetched ${sectors.length} sectors`)

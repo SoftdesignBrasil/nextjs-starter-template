@@ -1,9 +1,9 @@
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import fetch from 'isomorphic-unfetch'
-import { Link } from '../config/routes'
-import { Router } from '../config/routes'
+import { Link, Router } from '../config/routes'
 import DataTable from '../components/generics/DataTable'
 import { formatDate } from '../utils/FormatUtil'
+import { buildAuthorizationHeader } from '../utils/authentication'
 
 const correctDateFormat = (data) => {
   data.forEach((obj) => {
@@ -45,10 +45,12 @@ const Index = (props) => (
   </Container>
 )
 
-Index.getInitialProps = async (context) => {
-  const res = await fetch(`${process.env.API_HOST}/employee`)
-  const employees = await res.json()
+Index.getInitialProps = async (context, jwtToken) => {
+  const res = await fetch(`${process.env.API_HOST}/employee`, {
+    headers: buildAuthorizationHeader(jwtToken)
+  })
 
+  const employees = await res.json()
   console.log(`Fetched ${employees.length} employees`)
 
   return {

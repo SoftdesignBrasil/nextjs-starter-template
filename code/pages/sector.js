@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch'
 import SimpleFormLayout from '../components/generics/SimpleFormLayout'
 import MultipleSelect from '../components/generics/MultipleSelect'
 import PrimarySecondaryBtn from '../components/generics/PrimarySecondaryBtn'
+import { buildAuthorizationHeader, extractJwtFromCookie } from '../utils/authentication'
 
 const createUpdateSectorInitialState = ({sector, sectorEmployees}) => (
   {
@@ -81,22 +82,28 @@ export default class Sector extends React.Component {
     this.onRemove = this.onRemove.bind(this)
   }
 
-  static async getInitialProps(context) {
+  static async getInitialProps(context, jwtToken) {
     const isUpdateSector = !!context.query.id
     let sector = {}
     let sectorEmployees = []
     let res
 
-    res = await fetch(`${process.env.API_HOST}/sectorType`)
+    res = await fetch(`${process.env.API_HOST}/sectorType`, {
+      headers: buildAuthorizationHeader(jwtToken)
+    })
     const sectorTypes = await res.json()
     console.log(`Fetched Sector Types: ${JSON.stringify(sectorTypes)}`)
 
-    res = await fetch(`${process.env.API_HOST}/employee`)
+    res = await fetch(`${process.env.API_HOST}/employee`, {
+      headers: buildAuthorizationHeader(jwtToken)
+    })
     const employees = await res.json()
     console.log(`Fecthed Employees: ${JSON.stringify(employees)}`)
 
     if (isUpdateSector) {
-      let res = await fetch(`${process.env.API_HOST}/sector/${context.query.id}`)
+      let res = await fetch(`${process.env.API_HOST}/sector/${context.query.id}`, {
+        headers: buildAuthorizationHeader(jwtToken)
+      })
       sector = await res.json()
       console.log(`Fetched Sector: ${JSON.stringify(sector)}`)
       sectorEmployees = filterSectorEmployees(employees, sector.employees)
@@ -172,10 +179,12 @@ export default class Sector extends React.Component {
   async onFormSubmit(event) {
     event.preventDefault()
 
+    const jwtToken = extractJwtFromCookie('token')
     const response = await fetch(`${process.env.API_HOST}/sector`, {
       method: this.props.isUpdateSector ? 'PUT' : 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...buildAuthorizationHeader(jwtToken)
       },
       body: JSON.stringify({
         id: this.state.id,
