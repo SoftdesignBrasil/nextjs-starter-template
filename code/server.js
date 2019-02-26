@@ -1,5 +1,7 @@
 const employeeApiRouter = require('./api/employeeApiMock')
 const sectorApiRouter = require('./api/sectorApiMock')
+const loginApiRouter = require('./api/loginApiMock').router
+const authenticateUser = require('./api/loginApiMock').authenticateUser
 
 const express = require('express')
 const next = require('next')
@@ -22,8 +24,10 @@ app.prepare().then(() => {
   // JSON Body Parser
   server.use(express.json())
 
+  server.use('/api', loginApiRouter)
+
   // Api de Mock
-  server.use('/api', employeeApiRouter, sectorApiRouter)
+  server.use('/api', authenticateUser, employeeApiRouter, sectorApiRouter)
 
   // Faz a rota das paginas baseado nos arquivos do dir: pages;
   server.use(handle)
