@@ -88,18 +88,20 @@ export default class Sector extends React.Component {
     let sectorEmployees = []
     let res
 
-    res = await fetch(`${process.env.API_HOST}/sectorType`, {
+    const API_HOST = process.browser ? process.env.CLIENT_API_HOST : process.env.SERVER_API_HOST
+
+    res = await fetch(`${API_HOST}/sectorType`, {
       headers: buildAuthorizationHeader(jwtToken)
     })
     const sectorTypes = await res.json()
 
-    res = await fetch(`${process.env.API_HOST}/employee`, {
+    res = await fetch(`${API_HOST}/employee`, {
       headers: buildAuthorizationHeader(jwtToken)
     })
     const employees = await res.json()
 
     if (isUpdateSector) {
-      let res = await fetch(`${process.env.API_HOST}/sector/${context.query.id}`, {
+      let res = await fetch(`${API_HOST}/sector/${context.query.id}`, {
         headers: buildAuthorizationHeader(jwtToken)
       })
       sector = await res.json()
@@ -177,7 +179,7 @@ export default class Sector extends React.Component {
     event.preventDefault()
 
     const jwtToken = extractJwtFromCookie('token')
-    const response = await fetch(`${process.env.API_HOST}/sector`, {
+    const response = await fetch(`${process.env.CLIENT_API_HOST}/sector`, {
       method: this.props.isUpdateSector ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',

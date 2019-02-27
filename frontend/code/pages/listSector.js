@@ -39,7 +39,8 @@ const ListSector = (props) => (
 )
 
 ListSector.getInitialProps = async (context, jwtToken) => {
-  const res = await fetch(`${process.env.API_HOST}/sector`, {
+  const API_HOST = process.browser ? process.env.CLIENT_API_HOST : process.env.SERVER_API_HOST
+  const res = await fetch(`${API_HOST}/sector`, {
     headers: buildAuthorizationHeader(jwtToken)
   })
   const sectors = await res.json()
