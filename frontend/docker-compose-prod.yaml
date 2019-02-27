@@ -3,6 +3,6 @@ services:
   web:
     build: .
     image: nextjs-sample-app
-    command: [sh, -c, "npm run build && npm start"]
+    command: [sh, -c, "npm run build && npm run prod"]
     ports:
       - "${APP_PORT}:3000"
