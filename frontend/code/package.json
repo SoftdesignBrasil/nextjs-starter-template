@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "prod": "NODE_ENV=production node server.js",
+    "start": "next build && NODE_ENV=production node server.js",
     "test": "jest"
   },
   "dependencies": {
@@ -25,10 +25,10 @@
     "react-bootstrap": "~1.0.0-beta.5",
     "react-bootstrap-table-next": "~2.1.2",
     "react-bootstrap-table2-paginator": "~2.0.2",
-    "react-dom": "~16.8.1"
+    "react-dom": "~16.8.1",
+    "@babel/core": "~7.3.3"
   },
   "devDependencies": {
-    "@babel/core": "~7.3.3",
     "babel-core": "~6.26.3",
     "babel-jest": "~24.1.0",
     "enzyme": "~3.9.0",
