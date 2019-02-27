@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  api:
+    build: backend/
+    ports:
+      - "${APP_PORT:-3001}:3000"
+
+  web:
+    build: frontend/
+    environment: 
+      API_HOST: ${API_HOST:-http://192.168.25.141:3001/api}
+    ports:
+      - "${APP_PORT:-3000}:3000"

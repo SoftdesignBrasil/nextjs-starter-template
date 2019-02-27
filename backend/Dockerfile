@@ -4,3 +4,6 @@ WORKDIR /code
 COPY ./code .
 
 RUN npm install
+
+ENTRYPOINT [ "npm" ]
+CMD [ "start" ]
