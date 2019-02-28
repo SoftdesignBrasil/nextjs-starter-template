@@ -107,7 +107,7 @@ export default class Sector extends React.Component {
     const employees = await res.json()
 
     if (isUpdateSector) {
-      let res = await fetch(`${API_HOST}/sector/${context.query.id}`, {
+      res = await fetch(`${API_HOST}/sector/${context.query.id}`, {
         headers: buildAuthorizationHeader(jwtToken)
       })
       sector = await res.json()
