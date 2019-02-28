@@ -18,6 +18,12 @@ const createNewEmployeeInitialState = () => (
   }
 )
 
+const buildErrorState = errorMsg => ({
+  showAlert: true,
+  updateSucceeded: false,
+  alertMsg: errorMsg
+})
+
 const createUpdateEmployeeInitalState = (employee) => (
   {
     id: employee.id,
@@ -47,35 +53,35 @@ class Employee extends React.Component {
   async onFormSubmit(event) {
     event.preventDefault()
 
-    const jwtToken = extractJwtFromCookie('token')
-    const response = await fetch(`${process.env.CLIENT_API_HOST}/employee`, {
-      method: this.state.isNewEmployee ? 'POST' : 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        ...buildAuthorizationHeader(jwtToken)
-      },
-      body: JSON.stringify({
-        id: this.state.id,
-        name: this.state.name
+    try {
+      const jwtToken = extractJwtFromCookie('token')
+      const response = await fetch(`${process.env.CLIENT_API_HOST}/employee`, {
+        method: this.state.isNewEmployee ? 'POST' : 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...buildAuthorizationHeader(jwtToken)
+        },
+        body: JSON.stringify({
+          id: this.state.id,
+          name: this.state.name
+        })
       })
-    })
 
-    if (response.ok) {
-      const payload = await response.json()
-      this.setState({
-        id: payload.id,
-        name: payload.name,
-        modifiedAt: formatDate(payload.createdAt),
-        showAlert: true,
-        updateSucceeded: true,
-        alertMsg: 'Salvo com sucesso'
-      })
-    } else {
-      this.setState({
-        showAlert: true,
-        updateSucceeded: false,
-        alertMsg: 'Falha ao salvar'
-      })
+      if (response.ok) {
+        const payload = await response.json()
+        this.setState({
+          id: payload.id,
+          name: payload.name,
+          modifiedAt: formatDate(payload.createdAt),
+          showAlert: true,
+          updateSucceeded: true,
+          alertMsg: 'Salvo com sucesso'
+        })
+      } else {
+        this.setState(buildErrorState('Falha ao salvar'))
+      }
+    } catch(err) {
+      this.setState(buildErrorState('Falha ao salvar'))
     }
   }
 
