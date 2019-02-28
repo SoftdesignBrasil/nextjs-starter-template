@@ -5,6 +5,12 @@ import { Router } from '../config/routes'
 import fetch from 'isomorphic-unfetch'
 import cookie from 'js-cookie'
 
+const buildErrorState = errorMsg => ({
+  showAlert: true,
+  alertMsg: errorMsg,
+  submitSuccess: false
+})
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -36,30 +42,30 @@ export default class Login extends React.Component {
   async onSubmit(event) {
     event.preventDefault()
 
-    const response = await fetch(`${process.env.CLIENT_API_HOST}/authenticate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password
+    try{
+      const response = await fetch(`${process.env.CLIENT_API_HOST}/authenticate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password
+        })
       })
-    })
 
-    if (response.ok) {
-      const payload = await response.json()
-      cookie.set('token', payload.token, {
-        expires: 1,
-        path: '/'
-      })
-      Router.pushRoute('/')
-    } else {
-      this.setState({
-        showAlert: true,
-        alertMsg: 'Usuario/Senha incorretos',
-        submitSuccess: false
-      })
+      if (response.ok) {
+        const payload = await response.json()
+        cookie.set('token', payload.token, {
+          expires: 1,
+          path: '/'
+        })
+        Router.pushRoute('/')
+      } else {
+        this.setState(buildErrorState('Usuario/Senha incorretos'))
+      }
+    } catch(err) {
+      this.setState(buildErrorState('Erro ao realizar login'))
     }
   }
 
