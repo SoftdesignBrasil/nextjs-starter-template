@@ -6,7 +6,9 @@
     "dev": "node server.js",
     "start": "NODE_ENV=production node server.js",
     "db:migrate": "sequelize db:migrate",
-    "model:generate": "sequelize model:generate"
+    "db:seed:all": "sequelize db:seed:all",
+    "model:generate": "sequelize model:generate",
+    "seed:generate": "sequelize seed:generate"
   },
   "dependencies": {
     "compression": "~1.7.3",
