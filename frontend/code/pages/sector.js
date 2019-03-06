@@ -38,6 +38,12 @@ const createOptionsSelectList = (selectListData) => (
   ))
 )
 
+const buildErrorState = errorMsg => ({
+  showAlert: true,
+  formSuccess: false,
+  alertMsg: errorMsg
+})
+
 const filterSectorEmployees = (employees, sectorEmployeeIds) => {
   if(!employees || !sectorEmployeeIds) {
     return []
@@ -178,33 +184,33 @@ export default class Sector extends React.Component {
   async onFormSubmit(event) {
     event.preventDefault()
 
-    const jwtToken = extractJwtFromCookie('token')
-    const response = await fetch(`${process.env.CLIENT_API_HOST}/sector`, {
-      method: this.props.isUpdateSector ? 'PUT' : 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...buildAuthorizationHeader(jwtToken)
-      },
-      body: JSON.stringify({
-        id: this.state.id,
-        name: this.state.name,
-        type: this.state.type,
-        employees: this.state.sectorEmployees.map(emp => emp.id)
+    try {
+      const jwtToken = extractJwtFromCookie('token')
+      const response = await fetch(`${process.env.CLIENT_API_HOST}/sector`, {
+        method: this.props.isUpdateSector ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...buildAuthorizationHeader(jwtToken)
+        },
+        body: JSON.stringify({
+          id: this.state.id,
+          name: this.state.name,
+          type: this.state.type,
+          employees: this.state.sectorEmployees.map(emp => emp.id)
+        })
       })
-    })
 
-    if (response.ok) {
-      this.setState({
-        showAlert: true,
-        formSuccess: true,
-        alertMsg: 'Salvo com sucesso'
-      })
-    } else {
-      this.setState({
-        showAlert: true,
-        formSuccess: false,
-        alertMsg: 'Falha ao salvar'
-      })
+      if (response.ok) {
+        this.setState({
+          showAlert: true,
+          formSuccess: true,
+          alertMsg: 'Salvo com sucesso'
+        })
+      } else {
+        this.setState(buildErrorState('Falha ao salvar'))
+      }
+    } catch(err) {
+      this.setState(buildErrorState('Falha ao salvar'))
     }
   }
 
