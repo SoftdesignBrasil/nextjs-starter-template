@@ -1,18 +1,18 @@
-const Sequelize = require('sequelize')
+const { sequelizeConnection, Sequelize } = require('../config/sequelizeConfig')
 const SectorModel = require('../models/sector')
 const EmployeeModel = require('../models/employee')
-
-const env = process.env.NODE_ENV || 'development'
-const dbConfig = require('../config/database.json')[env]
-
-// Database connection setup
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, dbConfig)
 
 // Models setup
 const models = {}
 
-models.Sector = SectorModel(sequelize, Sequelize)
-models.Employee = EmployeeModel(sequelize, Sequelize)
+models.Sector = SectorModel(sequelizeConnection, Sequelize)
+models.Employee = EmployeeModel(sequelizeConnection, Sequelize)
+
+// Inject sequelize connection
+models.sequelizeConnection = sequelizeConnection
+
+// Inject Sequelize Object
+models.Sequelize = Sequelize
 
 // Will run models associations
 Object.keys(models).forEach(modelName => {

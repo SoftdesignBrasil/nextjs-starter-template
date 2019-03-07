@@ -9,7 +9,7 @@ const compression = require('compression')
 const helmet = require('helmet')
 
 const employeeApiRouter = require('./api/employeeApi')
-const sectorApiRouter = require('./api/sectorApiMock')
+const sectorApiRouter = require('./api/sectorApi')
 const loginApiRouter = require('./api/loginApiMock').router
 const authenticateUser = require('./api/loginApiMock').authenticateUser
 
