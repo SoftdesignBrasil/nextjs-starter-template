@@ -1,4 +1,20 @@
 const winston = require('winston')
+const { format } = winston
+
+const prodFormat = () => {
+  const replaceError = ({ label, level, message, stack }) => ({ label, level, message, stack })
+  const replacer = (key, value) => value instanceof Error ? replaceError(value) : value
+  return format.json({ replacer })
+}
+
+const devFormat = () => {
+  const formatMessage = info => `${info.level} ${info.message}`
+  const formatError = info => `${info.level} ${info.message}\n\n${info.stack}\n`
+  const formatter = info => info instanceof Error ? formatError(info) : formatMessage(info)
+  return format.combine(format.colorize(), format.printf(formatter))
+}
+
+const isProd = process.env.NODE_ENV === 'production'
 
 const logger = winston.createLogger({
   transports: [
@@ -19,7 +35,8 @@ const logger = winston.createLogger({
       colorize: true
     })
   ],
-  exitOnError: false
+  exitOnError: false,
+  format: isProd ? prodFormat() : devFormat()
 })
 
 logger.stream = {
