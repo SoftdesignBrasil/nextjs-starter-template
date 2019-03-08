@@ -72,6 +72,17 @@ router.put('/sector', (req, res) => {
         transaction: t
       }
     ).then(() => {
+      return models.Employee.update(
+        { SectorId: null },
+        {
+          where: {
+            id: { [Op.notIn] : req.body.employees },
+            SectorId: req.body.id
+          },
+          transaction: t
+        }
+      )
+    }).then(() => {
       return models.Sector.findOne({
         where: { id: req.body.id },
         transaction: t
