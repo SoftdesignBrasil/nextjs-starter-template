@@ -4,6 +4,14 @@ const { handleDbError } = require('../utils/errorHandling')
 
 const router = express.Router()
 
+router.get('/employee/free', (req, res) => {
+  models.Employee.findAll({
+    where: { SectorId: null }
+  }).then(
+    employees => res.json(employees.map(employee => employee.get()))
+  ).catch(err => handleDbError(err, res))
+})
+
 router.get('/employee/:id', (req, res) => {
   models.Employee.findOne({
     where: { id: req.params.id }
