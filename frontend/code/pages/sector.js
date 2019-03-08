@@ -6,7 +6,7 @@ import MultipleSelect from '../components/generics/MultipleSelect'
 import PrimarySecondaryBtn from '../components/generics/PrimarySecondaryBtn'
 import { buildAuthorizationHeader, extractJwtFromCookie } from '../utils/authentication'
 
-const createUpdateSectorInitialState = ({sector, sectorEmployees}) => (
+const createUpdateSectorInitialState = ({sector, sectorEmployees, employeeSelectList}) => (
   {
     id: sector.id,
     name: sector.name,
@@ -15,11 +15,12 @@ const createUpdateSectorInitialState = ({sector, sectorEmployees}) => (
     selectedEmployeeId: '',
     showAlert: false,
     formSuccess: false,
-    alertMsg: ''
+    alertMsg: '',
+    employeeSelectList
   }
 )
 
-const createNewSectorInitialState = () => (
+const createNewSectorInitialState = ({employeeSelectList}) => (
   {
     id: '',
     name: '',
@@ -28,7 +29,8 @@ const createNewSectorInitialState = () => (
     selectedEmployeeId: '',
     showAlert: false,
     formSuccess: false,
-    alertMsg: ''
+    alertMsg: '',
+    employeeSelectList
   }
 )
 
@@ -70,6 +72,17 @@ const createEmployeeSelectList = (employees)=> (
   }))
 )
 
+const addOnEmployeeSelectList = (employees, employeeSelectListState, employeeId) => {
+  const employeeSelectList = [ ...employeeSelectListState ]
+  const selectedEmployee = employees.filter(employee => employee.id === employeeId)
+  return [...employeeSelectList, ...createEmployeeSelectList(selectedEmployee)]
+}
+
+const removeFromSelectList = (employeeSelectListState, employeeId) => {
+  const employeeSelectList = [ ...employeeSelectListState ]
+  return employeeSelectList.filter(employee => employee.value !== employeeId)
+}
+
 export default class Sector extends React.Component {
   constructor(props) {
     super(props)
@@ -77,7 +90,7 @@ export default class Sector extends React.Component {
     if (props.isUpdateSector) {
       this.state = createUpdateSectorInitialState(props)
     } else {
-      this.state = createNewSectorInitialState()
+      this.state = createNewSectorInitialState(props)
     }
     this.onTypeChange = this.onTypeChange.bind(this)
     this.onAddSectorEmployee = this.onAddSectorEmployee.bind(this)
@@ -106,6 +119,11 @@ export default class Sector extends React.Component {
     })
     const employees = await res.json()
 
+    res = await fetch(`${API_HOST}/employee/free`, {
+      headers: buildAuthorizationHeader(jwtToken)
+    })
+    const freeEmployees = await res.json()
+
     if (isUpdateSector) {
       res = await fetch(`${API_HOST}/sector/${context.query.id}`, {
         headers: buildAuthorizationHeader(jwtToken)
@@ -118,7 +136,7 @@ export default class Sector extends React.Component {
       sector,
       sectorEmployees,
       sectorTypeSelectList: createSectorTypeSelectList(sectorTypes),
-      employeeSelectList: createEmployeeSelectList(employees),
+      employeeSelectList: createEmployeeSelectList(freeEmployees),
       employees,
       isUpdateSector
     }
@@ -130,7 +148,10 @@ export default class Sector extends React.Component {
       emp.id !== sectorEmployeeId
     ))
     this.setState({
-      sectorEmployees: newSectorEmployees
+      sectorEmployees: newSectorEmployees,
+      employeeSelectList: addOnEmployeeSelectList(
+        this.props.employees, this.state.employeeSelectList, sectorEmployeeId
+      )
     })
   }
 
@@ -165,7 +186,11 @@ export default class Sector extends React.Component {
       emp.id === Number(this.state.selectedEmployeeId)
     ))
     this.setState({
-      sectorEmployees: [...this.state.sectorEmployees, selectedEmployee]
+      sectorEmployees: [...this.state.sectorEmployees, selectedEmployee],
+      employeeSelectList: removeFromSelectList(
+        this.state.employeeSelectList, Number(this.state.selectedEmployeeId)
+      ),
+      selectedEmployeeId: ''
     })
   }
 
@@ -251,7 +276,7 @@ export default class Sector extends React.Component {
               onValueChange={this.onEmployeeChange}
               defaultSelectValue=""
               defaultSelectLabel="Selecione para víncular"
-              selectList={this.props.employeeSelectList}
+              selectList={this.state.employeeSelectList}
               selectValueKey="value"
               selectLabelKey="display"
               onAddValue={this.onAddSectorEmployee}
