@@ -4,7 +4,7 @@
   "description": "API for NextJS Sample App",
   "scripts": {
     "dev": "node server.js",
-    "start": "NODE_ENV=production node server.js",
+    "start": "./wait_mysql.sh && sequelize db:migrate && sequelize db:seed:all && node server.js",
     "db:migrate": "sequelize db:migrate",
     "db:seed:all": "sequelize db:seed:all",
     "model:generate": "sequelize model:generate",

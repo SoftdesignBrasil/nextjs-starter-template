@@ -3,13 +3,26 @@ version: '3'
 services:
   api:
     build: backend/
+    environment:
+      NODE_ENV: production
     ports:
       - "${API_PORT:-3001}:3000"
+    depends_on:
+      - mysql
 
   web:
     build: frontend/
-    environment: 
-      SERVER_API_HOST: ${SERVER_API_HOST:-http://api:3000/api}
-      CLIENT_API_HOST: ${CLIENT_API_HOST:-http://127.0.0.1:3001/api}
+    environment:
+      SERVER_API_HOST: ${SERVER_API_HOST:-http://192.168.0.87:3001/api}
+      CLIENT_API_HOST: ${CLIENT_API_HOST:-http://192.168.0.87:3001/api}
+      NODE_ENV: production
     ports:
       - "${APP_PORT:-3000}:3000"
+
+  mysql:
+    image: mysql:5
+    environment:
+      MYSQL_ROOT_PASSWORD: 1q2w3e4r
+      MYSQL_DATABASE: nextjs
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"

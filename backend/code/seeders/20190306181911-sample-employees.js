@@ -9,7 +9,7 @@ const mockEmployees = () => {
   for (let i = 0; i <= 9; i++) {
     employees.push({
       name: `Funcionário ${i + 1}`,
-      SectorId: getRandomInt(12,16),
+      SectorId: getRandomInt(1,5),
       createdAt: new Date()
     })
   }
