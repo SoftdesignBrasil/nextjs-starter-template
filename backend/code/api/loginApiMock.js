@@ -3,8 +3,7 @@ const express = require('express')
 const router = express.Router()
 
 const JWT_SECRET = '@jwtSecret123!'
-const ONE_HOUR_TOKEN_EXPIRATION = "1h"
-
+const expires = {} //{ expiresIn: "1h" }
 const sendUnauthorizedResponse = (res) => {
   res.status(401).json({
     error: 'User not authenticated'
@@ -44,7 +43,7 @@ router.post('/authenticate', (req, res) => {
     jwt.sign(
       data,
       JWT_SECRET,
-      { expiresIn: ONE_HOUR_TOKEN_EXPIRATION },
+      expires,
       (err, token) => {
         if (err) {
           return sendInvalidCredentialsResponse(res)

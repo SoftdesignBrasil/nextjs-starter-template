@@ -5,24 +5,29 @@ services:
     build: backend/
     environment:
       NODE_ENV: production
+      POC_NEXTJS_DB_USERNAME: ${POC_NEXTJS_DB_USERNAME:-root}
+      POC_NEXTJS_DB_PASSWORD: ${POC_NEXTJS_DB_PASSWORD:-1q2w3e4r}
+      POC_NEXTJS_DB_NAME: ${POC_NEXTJS_DB_NAME:-nextjs}
+      POC_NEXTJS_DB_HOSTNAME: ${POC_NEXTJS_DB_HOSTNAME:-mysql}
+      POC_NEXTJS_DB_HOSTPORT: ${POC_NEXTJS_DB_HOSTPORT:-3306}
     ports:
-      - "${API_PORT:-3001}:3000"
+      - "${POC_NEXTJS_EXPOSE_API_PORT:-3001}:3000"
     depends_on:
       - mysql
 
   web:
     build: frontend/
     environment:
-      SERVER_API_HOST: ${SERVER_API_HOST:-http://192.168.0.87:3001/api}
-      CLIENT_API_HOST: ${CLIENT_API_HOST:-http://192.168.0.87:3001/api}
+      POC_NEXTJS_SERVER_API_HOST: ${POC_NEXTJS_SERVER_API_HOST:-http://api:3000/api}
+      POC_NEXTJS_CLIENT_API_HOST: ${POC_NEXTJS_CLIENT_API_HOST:-http://127.0.0.1:3001/api}
       NODE_ENV: production
     ports:
-      - "${APP_PORT:-3000}:3000"
+      - "${POC_NEXTJS_EXPOSE_APP_PORT:-3000}:3000"
 
   mysql:
     image: mysql:5
     environment:
-      MYSQL_ROOT_PASSWORD: 1q2w3e4r
-      MYSQL_DATABASE: nextjs
+      MYSQL_ROOT_PASSWORD: ${POC_NEXTJS_DB_PASSWORD:-1q2w3e4r}
+      MYSQL_DATABASE: ${POC_NEXTJS_DB_NAME:-nextjs}
     ports:
-      - "${MYSQL_PORT:-3306}:3306"
+      - "${POC_NEXTJS_EXPOSE_MYSQL_PORT:-3306}:3306"

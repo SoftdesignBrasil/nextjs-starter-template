@@ -55,7 +55,7 @@ class Employee extends React.Component {
 
     try {
       const jwtToken = extractJwtFromCookie('token')
-      const response = await fetch(`${process.env.CLIENT_API_HOST}/employee`, {
+      const response = await fetch(`${process.env.POC_NEXTJS_CLIENT_API_HOST}/employee`, {
         method: this.state.isNewEmployee ? 'POST' : 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ class Employee extends React.Component {
 Employee.getInitialProps = async (context, jwtToken) => {
   const isUpdateEmployee = context.query && context.query.id
   if (isUpdateEmployee) {
-    const API_HOST = process.browser ? process.env.CLIENT_API_HOST : process.env.SERVER_API_HOST
+    const API_HOST = process.browser ? process.env.POC_NEXTJS_CLIENT_API_HOST : process.env.POC_NEXTJS_SERVER_API_HOST
 
     const res = await fetch(`${API_HOST}/employee/${context.query.id}`, {
       headers: buildAuthorizationHeader(jwtToken)

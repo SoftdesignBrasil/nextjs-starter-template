@@ -46,7 +46,7 @@ const Index = (props) => (
 )
 
 Index.getInitialProps = async (context, jwtToken) => {
-  const API_HOST = process.browser ? process.env.CLIENT_API_HOST : process.env.SERVER_API_HOST
+  const API_HOST = process.browser ? process.env.POC_NEXTJS_CLIENT_API_HOST : process.env.POC_NEXTJS_SERVER_API_HOST
   const res = await fetch(`${API_HOST}/employee`, {
     headers: buildAuthorizationHeader(jwtToken)
   })

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const env = process.env.NODE_ENV || 'development'
-const dbConfig = require('../config/database.json')[env]
+const dbConfig = require('./database.js')[env]
 
 // Database connection setup
 const sequelizeConnection = new Sequelize(

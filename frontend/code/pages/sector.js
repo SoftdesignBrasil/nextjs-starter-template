@@ -107,7 +107,7 @@ export default class Sector extends React.Component {
     let sectorEmployees = []
     let res
 
-    const API_HOST = process.browser ? process.env.CLIENT_API_HOST : process.env.SERVER_API_HOST
+    const API_HOST = process.browser ? process.env.POC_NEXTJS_CLIENT_API_HOST : process.env.POC_NEXTJS_SERVER_API_HOST
 
     res = await fetch(`${API_HOST}/sectorType`, {
       headers: buildAuthorizationHeader(jwtToken)
@@ -211,7 +211,7 @@ export default class Sector extends React.Component {
 
     try {
       const jwtToken = extractJwtFromCookie('token')
-      const response = await fetch(`${process.env.CLIENT_API_HOST}/sector`, {
+      const response = await fetch(`${process.env.POC_NEXTJS_CLIENT_API_HOST}/sector`, {
         method: this.props.isUpdateSector ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
