@@ -28,7 +28,7 @@ const createUpdateEmployeeInitalState = (employee) => (
   {
     id: employee.id,
     name: employee.name,
-    modifiedAt: employee.createdAt,
+    modifiedAt: employee.updatedAt ? formatDate(employee.updatedAt) : formatDate(employee.createdAt),
     showAlert: false,
     updateSucceeded: false,
     alertMsg: '',
@@ -72,7 +72,7 @@ class Employee extends React.Component {
         this.setState({
           id: payload.id,
           name: payload.name,
-          modifiedAt: formatDate(payload.createdAt),
+          modifiedAt: formatDate(payload.updatedAt),
           showAlert: true,
           updateSucceeded: true,
           alertMsg: 'Salvo com sucesso'
@@ -147,7 +147,6 @@ Employee.getInitialProps = async (context, jwtToken) => {
       headers: buildAuthorizationHeader(jwtToken)
     })
     const employee = await res.json()
-    employee.createdAt = formatDate(employee.createdAt)
 
     return {
       employee

@@ -7,7 +7,7 @@ import { buildAuthorizationHeader } from '../utils/authentication'
 
 const correctDateFormat = (data) => {
   data.forEach((obj) => {
-    obj.modifiedAt = formatDate(obj.createdAt)
+    obj.modifiedAt = obj.updatedAt ? formatDate(obj.updatedAt) : formatDate(obj.createdAt)
   })
   return data
 }
