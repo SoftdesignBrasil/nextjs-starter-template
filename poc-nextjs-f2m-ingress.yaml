@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: poc-nextjs-f2m-ingress
+  namespace: pocs
+spec:
+  rules:
+  - host: poc-nextjs-f2m-app.ingress.softdesign-rs.com.br
+    http:
+      paths:
+      - backend:
+          serviceName: poc-nextjs-f2m-service-np
+          servicePort: 3000
+        path: /
+  - host: nextjs-poc-app.softdesign-rs.com.br
+    http:
+      paths:
+      - backend:
+          serviceName: poc-nextjs-f2m-service-np
+          servicePort: 3000
+        path: /
+  - host: poc-nextjs-f2m-api.ingress.softdesign-rs.com.br
+    http:
+      paths:
+      - backend:
+          serviceName: poc-nextjs-f2m-service-np
+          servicePort: 3001
+        path: /
+  - host: nextjs-poc-api.softdesign-rs.com.br
+    http:
+      paths:
+      - backend:
+          serviceName: poc-nextjs-f2m-service-np
+          servicePort: 3001
+        path: /

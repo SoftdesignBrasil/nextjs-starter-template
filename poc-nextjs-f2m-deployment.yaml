@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poc-nextjs-f2m-deployment
+  namespace: pocs
+spec:
+  selector:
+    matchLabels:
+      app: poc-nextjs-f2m-app
+  template:
+    metadata:
+      labels:
+        app: poc-nextjs-f2m-app
+    spec:
+      containers:
+      - name: poc-nextjs-f2m-mysql
+        image: mysql:5
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "strongpassword"
+          - name: MYSQL_DATABASE
+            value: "nextjs"
+      - name: poc-nextjs-f2m-web
+        image: registry.softdesign-rs.com.br/poc/nextjs-f2m-web:master
+        imagePullPolicy: Always
+        env:
+          - name: POC_NEXTJS_SERVER_API_HOST
+            value: "http://127.0.0.1:3001/api"
+          - name: POC_NEXTJS_CLIENT_API_HOST
+            value: "https://nextjs-poc-api.softdesign-rs.com.br/api"
+        ports:
+        - containerPort: 3000
+      - name: poc-nextjs-f2m-api
+        image: registry.softdesign-rs.com.br/poc/nextjs-f2m-api:master
+        imagePullPolicy: Always
+        env:
+          - name: POC_NEXTJS_DB_USERNAME
+            value: "root"
+          - name: POC_NEXTJS_DB_PASSWORD
+            value: "strongpassword"
+          - name: POC_NEXTJS_DB_NAME
+            value: "nextjs"
+          - name: POC_NEXTJS_DB_HOSTNAME
+            value: "127.0.0.1"
+          - name: POC_NEXTJS_DB_HOSTPORT
+            value: "3306"
+          - name: PORT
+            value: "3001"
+        ports:
+        - containerPort: 3001
